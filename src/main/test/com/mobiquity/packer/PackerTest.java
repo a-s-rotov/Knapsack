@@ -18,9 +18,10 @@ public class PackerTest {
     public void defaultTest() {
         try {
             var resultString = Packer.pack(getPathToTestFile("example_input"));
-            var expectedString = getDateFromFile("example_input");
+            var expectedString = getDateFromFile("example_output");
             assertEquals(resultString,expectedString);
         } catch (APIException exception) {
+            exception.printStackTrace();
             fail("Method pack() throw APIException");
         }
 
@@ -33,22 +34,29 @@ public class PackerTest {
     }
 
     @Test
-    @Timeout(value = 50, unit = TimeUnit.MILLISECONDS)
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
     @DisplayName("Load test")
     public void loadTest() {
         try {
             var resultString = Packer.pack(getPathToTestFile("big_data_input"));
             var expectedString = getDateFromFile("big_data_output");
-            assertEquals(resultString,expectedString);
+            assertEquals(resultString, expectedString);
         } catch (APIException exception) {
-            fail("Method pack throw APIException");
+            exception.printStackTrace();
+            fail("Method pack throws APIException");
         }
     }
 
     @Test
-    @DisplayName("Wrong data test")
-    public void wrongDataFailureTest() {
-        assertThrows(APIException.class, () -> Packer.pack(getPathToTestFile("wrong_data")));
+    @DisplayName("The first wrong data test")
+    public void firstWrongDataFailureTest() {
+        assertThrows(APIException.class, () -> Packer.pack(getPathToTestFile("wrong_data_input")));
+    }
+
+    @Test
+    @DisplayName("The second wrong data test")
+    public void secondWrongDataFailureTest() {
+        assertThrows(APIException.class, () -> Packer.pack(getPathToTestFile("wrong_data_input2")));
     }
 
 }

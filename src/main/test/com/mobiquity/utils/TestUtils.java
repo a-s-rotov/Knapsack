@@ -23,7 +23,7 @@ public class TestUtils {
         try {
             return Files.readString(path).trim();
         } catch (IOException e) {
-            //We throw a RuntimeException because if the file is wrong than the test just fails.
+            //We throw a RuntimeException because if the file is wrong, than the test just fails.
             //This is acceptable behavior.
             throw new UncheckedIOException(e);
         }
